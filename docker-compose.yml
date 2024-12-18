@@ -63,6 +63,7 @@ services:
     restart: ${RESTART_POLICY:-unless-stopped}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker-config.json:/root/.docker/config.json
     user: root
     networks:
       - webapp
@@ -75,6 +76,20 @@ services:
     environment:
       <<: *worker-env
       PLATFORM_SECRET: $PROVIDER_SECRET
+
+  docker-registry:
+    container_name: trigger-docker-registry
+    image: registry:2
+    restart: unless-stopped
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+    ports:
+      - 127.0.0.1:6433:5000
+    volumes:
+      - ./docker-registry/data:/var/lib/registry
+      - ./docker-registry/htpasswd:/auth/htpasswd
 
   coordinator:
     image: ghcr.io/triggerdotdev/coordinator:${TRIGGER_IMAGE_TAG:-v3}
