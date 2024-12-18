@@ -63,7 +63,7 @@ services:
     restart: ${RESTART_POLICY:-unless-stopped}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./docker-config.json:/root/.docker/config.json
+      - ./docker-registry/auth.json:/root/.docker/config.json
     user: root
     networks:
       - webapp
