@@ -1,0 +1,9 @@
+[Unit]
+Description=Run the trigger cleanup service on a schedule
+
+[Timer]
+OnCalendar=*-*-* 22:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

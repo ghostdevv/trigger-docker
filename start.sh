@@ -47,6 +47,15 @@ if [ ! -f "$env_file" ]; then
     esac
 fi
 
+if [ "$kind" != "webapp" ]; then
+    echo "Ensuring cleanup service exists and is enabled..."
+    sudo cp "$script_dir/cleanup/trigger-cleanup.service" /etc/systemd/system/
+    sudo cp "$script_dir/cleanup/trigger-cleanup.timer" /etc/systemd/system/
+    sudo systemctl daemon-reload
+    sudo systemctl enable trigger-cleanup.timer --now
+    echo "Done! Starting trigger"
+fi;
+
 if [ "$kind" = "full" ]; then
     compose_file=$script_dir/docker-compose.yml
     extra_args="-p=trigger"

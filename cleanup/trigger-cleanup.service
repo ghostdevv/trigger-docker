@@ -1,0 +1,11 @@
+[Unit]
+Description=Trigger automated cleanup task
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker container prune
+TimeoutStartSec=5min
+
+[Install]
+WantedBy=multi-user.target
