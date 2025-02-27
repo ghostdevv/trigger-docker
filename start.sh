@@ -53,7 +53,7 @@ if [ "$kind" != "webapp" ]; then
     sudo cp "$script_dir/cleanup/trigger-cleanup.timer" /etc/systemd/system/
     sudo systemctl daemon-reload
     sudo systemctl enable trigger-cleanup.timer --now
-    echo "Done! Starting trigger"
+    echo "Done! Starting trigger\n"
 fi;
 
 if [ "$kind" = "full" ]; then
@@ -64,7 +64,7 @@ else
     extra_args="-p=trigger-$kind"
 fi
 
-if [[ ! "$@" == *"-d"* ]]; then
+if ! echo "$*" | grep -q -- "-d"; then
     echo "Warning: Detached mode (-d) is not enabled."
     echo -n "Would you like to continue running the script? (y/N): "
     read answer
@@ -72,7 +72,7 @@ if [[ ! "$@" == *"-d"* ]]; then
     # Convert answer to lowercase for easier comparison
     answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
     
-    if [[ "$answer" != "y" && "$answer" != "yes" ]]; then
+    if [ "$answer" != "y" ] && [ "$answer" != "yes" ]; then
         echo "Cancelled."
         exit 1
     fi
