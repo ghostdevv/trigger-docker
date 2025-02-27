@@ -64,4 +64,18 @@ else
     extra_args="-p=trigger-$kind"
 fi
 
+if [[ ! "$@" == *"-d"* ]]; then
+    echo "Warning: Detached mode (-d) is not enabled."
+    echo -n "Would you like to continue running the script? (y/N): "
+    read answer
+    
+    # Convert answer to lowercase for easier comparison
+    answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
+    
+    if [[ "$answer" != "y" && "$answer" != "yes" ]]; then
+        echo "Cancelled."
+        exit 1
+    fi
+fi
+
 docker_compose -f "$compose_file" "$extra_args" up "$@"
