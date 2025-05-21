@@ -1,8 +1,8 @@
 [Unit]
-Description=Run the trigger cleanup service on a schedule
+Description=Run the trigger cleanup service every 30 minutes
 
 [Timer]
-OnCalendar=*-*-* 22:00:00
+OnCalendar=*:0/30
 Persistent=true
 
 [Install]
