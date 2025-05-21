@@ -4,7 +4,7 @@ Requires=docker.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/docker container prune --force
+ExecStart=/usr/bin/docker container prune --force --filter "until=5m"
 TimeoutStartSec=5min
 
 [Install]
